@@ -1,6 +1,7 @@
 class World {
 
     character = new Character();
+    characterNew = new Character();
     enemies = [
         new Chicken(),
         new Chicken(),
@@ -13,6 +14,7 @@ class World {
     ];
 
     backgroundObjects = [
+        new BackgroundObject('../img/5_background/layers/air.png', 0, 0),
         new BackgroundObject('../img/5_background/layers/3_third_layer/1.png', 0),
         new BackgroundObject('../img/5_background/layers/2_second_layer/1.png', 0),
         new BackgroundObject('../img/5_background/layers/1_first_layer/1.png', 0),
@@ -32,6 +34,7 @@ class World {
         this.addObjectsToMap(this.clouds);
         this.addObjectsToMap(this.enemies);
         this.addToMap(this.character);
+        this.addToMap(this.characterNew);
         /* draw wird immer wieder aufgerufen - soweit die Grafikkarte hergibt */
         let self = this;
         requestAnimationFrame(function () {
