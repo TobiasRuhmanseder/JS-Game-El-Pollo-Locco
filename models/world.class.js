@@ -1,7 +1,6 @@
 class World {
 
     character = new Character();
-    characterNew = new Character();
     enemies = [
         new Chicken(),
         new Chicken(),
@@ -9,6 +8,7 @@ class World {
     ];
     ctx;
     canvas;
+    keyboard;
     clouds = [
         new Cloud()
     ];
@@ -20,13 +20,17 @@ class World {
         new BackgroundObject('../img/5_background/layers/1_first_layer/1.png', 0),
     ]
 
-
-
-    constructor(canvas) {
+    constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
+        this.canvas = canvas;
+        this.keyboard = keyboard;
         this.draw();
+        this.setWorld();
     }
 
+    setWorld() {
+        this.character.world = this;
+    }
 
     draw() {
         this.ctx.clearRect(0, 0, canvas.width, canvas.height); /* delete the canvas before it load new */
@@ -34,7 +38,6 @@ class World {
         this.addObjectsToMap(this.clouds);
         this.addObjectsToMap(this.enemies);
         this.addToMap(this.character);
-        this.addToMap(this.characterNew);
         /* draw wird immer wieder aufgerufen - soweit die Grafikkarte hergibt */
         let self = this;
         requestAnimationFrame(function () {
