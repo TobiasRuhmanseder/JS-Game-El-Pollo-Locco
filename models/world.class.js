@@ -1,30 +1,10 @@
 class World {
-
     character = new Character();
-    enemies = [
-        new Chicken(),
-        new Chicken(),
-        new Chicken(),
-    ];
     ctx;
     canvas;
     keyboard;
     camera_x;
-    clouds = [
-        new Cloud()
-    ];
-
-    backgroundObjects = [
-        new BackgroundObject('../img/5_background/layers/air.png', 0),
-        new BackgroundObject('../img/5_background/layers/air.png', 719),
-        new BackgroundObject('../img/5_background/layers/3_third_layer/1.png', 0),
-        new BackgroundObject('../img/5_background/layers/2_second_layer/1.png', 0),
-        new BackgroundObject('../img/5_background/layers/1_first_layer/1.png', 0),
-        new BackgroundObject('../img/5_background/layers/3_third_layer/2.png', 720),
-        new BackgroundObject('../img/5_background/layers/2_second_layer/2.png', 720),
-        new BackgroundObject('../img/5_background/layers/1_first_layer/2.png', 720),
-
-    ]
+    level = level1;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -41,14 +21,12 @@ class World {
     draw() {
         this.ctx.clearRect(0, 0, canvas.width, canvas.height); /* delete the canvas before it load new */
         this.ctx.translate(this.camera_x, 0);
-        this.addObjectsToMap(this.backgroundObjects);
-        this.addObjectsToMap(this.clouds);
-        this.addObjectsToMap(this.enemies);
+        this.addObjectsToMap(this.level.backgroundObjects);
+        this.addObjectsToMap(this.level.clouds);
+        this.addObjectsToMap(this.level.enemies);
         this.addToMap(this.character);
 
         this.ctx.translate(-this.camera_x, 0);
-
-
 
         /* draw wird immer wieder aufgerufen - soweit die Grafikkarte hergibt */
         let self = this;
