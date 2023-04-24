@@ -3,6 +3,13 @@ class Chicken extends MovableObject {
     width = 80;
     y = 480 - 35 - this.height;
 
+    offset = {
+        top: 10,
+        bottom: 10,
+        left: 10,
+        right: 10
+    }
+
     IMAGES_WALKING = [
         'img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
         'img/3_enemies_chicken/chicken_normal/1_walk/2_w.png',
@@ -19,11 +26,13 @@ class Chicken extends MovableObject {
 
     animate() {
         setInterval(() => {
-            let i = this.currentImage % this.IMAGES_WALKING.length;
-            let path = this.IMAGES_WALKING[i];
-            this.img = this.imageCache[path];
-            this.currentImage++;
+            this.moveLeft();
+        }, 1000 / 60)
+
+        setInterval(() => {
+            this.playAnimation(this.IMAGES_WALKING);
         }, 100);
-        this.moveLeft();
+
+
     }
 }
