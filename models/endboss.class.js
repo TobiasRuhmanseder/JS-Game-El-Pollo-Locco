@@ -1,8 +1,9 @@
 class Endboss extends MovableObject {
+    hurt_sound = new Audio('audio/chicken.mp3');
     height = 450;
     y = 480 - 15 - this.height;
     width = 300;
-
+    isDead = false;
     offset = {
         top: 120,
         bottom: 10,
@@ -25,7 +26,7 @@ class Endboss extends MovableObject {
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
-        this.x = 700;
+        this.x = 3000;
         this.animate();
     }
 

@@ -1,58 +1,32 @@
-class MovableObject {
-    img;
-    imageCache = {};
-    currentImage = 0;
+class MovableObject extends DrawableObject {
+    applyGravityInterval;
     speed = 0.15;
-    height = 150;
-    width = 100;
     x = 120;
     y;
     otherDirection = false;
     speedY = 0;
     acceleration = 2;
     energy = 100;
-    lastHit = 0;
+    lastHit = 1;
+    hurts = false;
+    backwardIntervall = 0;
+    bottleGround = 390;
 
 
     applyGravity() {
-        setInterval(() => {
+        this.applyGravityInterval = setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
             }
-        }, 1000 / 25)
+        }, 1000 / 30)
     }
 
     isAboveGround() {
-        return this.y < 175;
-    }
-
-    loadImage(path) {
-        this.img = new Image();
-        this.img.src = path;
-    }
-
-    draw(ctx) {
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
-    }
-
-    drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Chicken) {
-            ctx.beginPath();
-            ctx.lineWidth = '5';
-            ctx.strokeStyle = 'blue';
-            ctx.rect(this.x, this.y, this.width, this.height);
-            ctx.stroke();
-        }
-    }
-
-    drawFrameOffset(ctx) {
-        if (this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
-            ctx.beginPath();
-            ctx.lineWidth = '3';
-            ctx.strokeStyle = 'red';
-            ctx.rect(this.x + this.offset.left, this.y + this.offset.top, this.width - this.offset.left - this.offset.right, this.height - this.offset.bottom - this.offset.top);
-            ctx.stroke();
+        if (this instanceof ThrowableObject) { // Throwable object should always fall
+            return this.y < this.bottleGround;
+        } else {
+            return this.y < 190;
         }
     }
 
@@ -64,12 +38,8 @@ class MovableObject {
             /* obj.onCollisionCourse */; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
     }
 
-    loadImages(arr) {
-        arr.forEach((path) => {
-            let img = new Image();
-            img.src = path;
-            this.imageCache[path] = img;
-        });
+    isCollidingOnTop(obj) {
+        return this.y + this.height - this.offset.bottom <= obj.y + obj.height
     }
 
     playAnimation(images) {
@@ -92,7 +62,7 @@ class MovableObject {
     }
 
     hit() {
-        this.energy -= 5;
+        this.energy -= 10;
         if (this.energy < 0) {
             this.energy = 0;
         } else {
@@ -100,10 +70,37 @@ class MovableObject {
         }
     }
 
-    isHurt() {
+    hitEnemy() {
+        this.energy -= 20;
+        if (this.energy < 0) {
+            this.energy = 0;
+        } else {
+            this.lastHit = new Date().getTime();
+        }
+    }
+
+    backwardJump() {
+        if (!this.hurts) {
+            this.hurts = true;
+            this.speedY = 15;
+            world.character.stopIncreasingSpeed();
+            if (this.otherDirection) {
+                this.backwardIntervall = setInterval(() => { this.x++ }, 1000 / 200);
+            }
+            else {
+                this.backwardIntervall = setInterval(() => { this.x-- }, 1000 / 200);
+            }
+            setTimeout(() => {
+                clearInterval(this.backwardIntervall);
+                this.hurts = false;
+            }, 700);
+        }
+    }
+
+    isHurt(time) {
         let timepassed = new Date().getTime() - this.lastHit; /* Difference in ms */
         timepassed = timepassed / 1000;
-        return timepassed < 0.7;
+        return timepassed < time;
     }
 
     isDead() {
