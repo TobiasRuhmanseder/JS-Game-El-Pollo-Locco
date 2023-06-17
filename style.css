@@ -1,10 +1,10 @@
 body {
+    font-family: 'mexican', Arial, Helvetica, sans-serif;
     margin: 0px;
     overflow: hidden;
     height: 100vh;
     width: 100%;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     background-image: url("img/10_background/desert.svg");
@@ -12,19 +12,76 @@ body {
     background-size: cover;
 }
 
+.d-none {
+    display: none;
+}
+
 
 canvas {
-    display: none;
+    /* display: none; */
     background-color: black;
     border: 6px solid #D5913C;
     border-radius: 6px;
+    display: none;
+}
+
+.menu {
+    height: 100%;
+    width: 100%;
+    background-image: url('img/9_intro_outro_screens/start/startscreen_1.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.btn {
+    font-size: 25px;
+    border: 5px solid black;
+    border-radius: 30px;
+    background-color: #f5ac2f;
+    padding: 20px;
+    transition: all .3s;
+}
+
+.btn:hover {
+    transition: all .3s;
+    background-color: #FFDF00;
+}
+
+.playbutton {
+    position: absolute;
+    top: 80px;
+    left: calc(50% - 125px);
+    padding-left: 60px;
+    padding-right: 60px;
+}
+
+.soundbutton, .keybutton {
+    padding: 10px;
+    margin-left: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.soundbutton img{
+    height: 36px;
+}
+
+.setting-Container{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 20px;
+    left: 100px;
 }
 
 
 .end-screen {
     height: 100vh;
     width: 100%;
-    position: relative;
+    position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -32,27 +89,20 @@ canvas {
 
 
 .gameover-image {
-    height: 100%;
-    width: 100%;
-    animation: end-image 1.5s normal;
-
+    animation: end-image 1.5s;
 }
-
 
 
 @keyframes end-image {
     0% {
-        width: 0%;
-        height: 0%;
+        transform: scale(0);
     }
 
-    75% {
-        width: 100%;
-        height: 120%;
+    50% {
+        transform: scale(1.10);
     }
 
     100% {
-        width: 100%;
-        height: 100%;
+        transform: scale(1);
     }
 }

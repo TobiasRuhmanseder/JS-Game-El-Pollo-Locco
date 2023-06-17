@@ -132,8 +132,8 @@ class Character extends MovableObject {
     animateCondition() {
         this.characterConditionInterval = setInterval(() => {
             if (this.isDead()) {
-                for (let i = 1; i < 999; i++) window.clearInterval(i);
                 this.walking_sound.pause();
+                stopAllInterval();
                 this.characterDieAnimation();
             }
             else if (this.isHurt(0.7)) {
@@ -226,11 +226,13 @@ class Character extends MovableObject {
     }
 
     characterDieAnimation() {
-
         this.characterDieInterval = setInterval(() => {
             this.playAnimation(this.IMAGES_DEAD);
-        }, 340);
-        setTimeout(() => { clearInterval(this.characterDieInterval) }, 1900);
-        
+        }, 380);
+        setTimeout(() => {
+            clearInterval(this.characterDieInterval)
+            gameOver(false);
+        }, 1900);
+
     }
 }

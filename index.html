@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="fonts.css">
     <link rel="icon" type="image/x-icon" href="img/8_coin/coin_1.png">
     <script src="models/drawable-object.class.js"></script>
     <script src="models/movable-object.class.js"></script>
@@ -21,19 +22,35 @@
     <script src="models/level.class.js"></script>
     <script src="levels/level1.js"></script>
     <script src="js/game.js"></script>
+    <script src="js/script.js"></script>
     <title>El pollo loco</title>
 </head>
 
 <body onload="init()">
 
+
+
     <canvas id="canvas" width="800" height="480">
 
     </canvas>
 
-    <div id="gameOverId" class="end-screen">
+    <div id="menu" class="menu">
+        <div id="playButtonId" class="playbutton btn">
+            PLAY
+        </div>
+        <div class="setting-Container">
+            <div onclick="toggleVolume()" id="playButtonId" class="soundbutton btn">
+                <img id="volumeId" src="img/volume_on.svg" alt="">
+            </div>
+            <div id="playButtonId" class="keybutton btn">
+                X
+            </div>
+        </div>
 
-        <img class="gameover-image" src="img/9_intro_outro_screens/game_over/game over.png" alt="">
+    </div>
+    <img id="gameOverId" class="gameover-image d-none" src="img/9_intro_outro_screens/game_over/game over.png" alt="">
 
+    <img id="lostId" class="gameover-image d-none" src="img/9_intro_outro_screens/game_over/you lost.png" alt="">
 
 </body>
 
