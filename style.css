@@ -1,12 +1,58 @@
 body {
-    height: 100;
+    margin: 0px;
+    overflow: hidden;
+    height: 100vh;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    background-image: url("img/10_background/desert.svg");
+    background-position: center;
+    background-size: cover;
 }
 
 
 canvas {
+    display: none;
     background-color: black;
+    border: 6px solid #D5913C;
+    border-radius: 6px;
+}
+
+
+.end-screen {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.gameover-image {
+    height: 100%;
+    width: 100%;
+    animation: end-image 1.5s normal;
+
+}
+
+
+
+@keyframes end-image {
+    0% {
+        width: 0%;
+        height: 0%;
+    }
+
+    75% {
+        width: 100%;
+        height: 120%;
+    }
+
+    100% {
+        width: 100%;
+        height: 100%;
+    }
 }

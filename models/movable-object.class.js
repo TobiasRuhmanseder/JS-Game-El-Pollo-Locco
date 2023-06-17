@@ -79,24 +79,6 @@ class MovableObject extends DrawableObject {
         }
     }
 
-    backwardJump() {
-        if (!this.hurts) {
-            this.hurts = true;
-            this.speedY = 15;
-            world.character.stopIncreasingSpeed();
-            if (this.otherDirection) {
-                this.backwardIntervall = setInterval(() => { this.x++ }, 1000 / 200);
-            }
-            else {
-                this.backwardIntervall = setInterval(() => { this.x-- }, 1000 / 200);
-            }
-            setTimeout(() => {
-                clearInterval(this.backwardIntervall);
-                this.hurts = false;
-            }, 700);
-        }
-    }
-
     isHurt(time) {
         let timepassed = new Date().getTime() - this.lastHit; /* Difference in ms */
         timepassed = timepassed / 1000;

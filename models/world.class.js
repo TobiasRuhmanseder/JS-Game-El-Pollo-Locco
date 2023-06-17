@@ -16,7 +16,7 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
-
+        this.playBackgroundMusik();
     }
 
     setWorld() {
@@ -32,6 +32,14 @@ class World {
         }, 25)
     }
 
+    playBackgroundMusik() {
+        this.level.backgroundMusik.autoplay = true;
+        this.level.backgroundMusik.volume = 0.2;
+        this.level.backgroundMusik.muted = true;
+        this.level.backgroundMusik.play();
+
+    }
+
     allowThrowing() {
         this.throwing = false;
         setTimeout(() => {
@@ -44,7 +52,6 @@ class World {
             this.allowThrowing();
             let bottle = new ThrowableObject(this.character.x + 50, this.character.y + 100);
             this.throwableObjects.push(bottle);
-
         }
 
     }
@@ -53,15 +60,18 @@ class World {
         this.level.enemies.forEach((enemy) => {
             let instanceOf = enemy instanceof Endboss;
             if (this.character.isColliding(enemy) && !enemy.isDead) {
-                if (this.character.isCollidingOnTop(enemy) && !this.character.hurts && !instanceOf) {
+                if (this.character.isCollidingOnTop(enemy) && !this.character.hurts && !instanceOf && this.character.speedY <= 0) {
                     this.character.speedY = 15;
                     enemy.hitEnemy();
                     enemy.hurt_sound.play();
+                    enemy.hurt_sound.volume = 0.05;
                 } else {
-                    this.character.hit();
-                    this.character.backwardJump();
-                    this.statusBar.setPercentage(this.character.energy);
-                    console.log('Collision with Character, energy is ', this.character.energy);
+                    if (!enemy.isHurt(2000)) {
+                        this.character.hit();
+                        this.character.backwardJump();
+                        this.statusBar.setPercentage(this.character.energy);
+                        console.log('Collision with Character, energy is ', this.character.energy);
+                    }
                 }
             }
         })

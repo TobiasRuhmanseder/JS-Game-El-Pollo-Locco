@@ -1,6 +1,9 @@
 class Character extends MovableObject {
+    characterConditionInterval;
+    characterDieInterval;
     world;
     walking_sound = new Audio('audio/walking5.mp3');
+    hurt_sound = new Audio('audio/hurts.mp3');
     stop = true;
     height = 270;
     width = 120;
@@ -53,9 +56,6 @@ class Character extends MovableObject {
     ];
 
     IMAGES_JUMPING = [
-        'img/2_character_pepe/3_jump/J-31.png',
-        'img/2_character_pepe/3_jump/J-32.png',
-        'img/2_character_pepe/3_jump/J-33.png',
         'img/2_character_pepe/3_jump/J-34.png',
         'img/2_character_pepe/3_jump/J-35.png',
         'img/2_character_pepe/3_jump/J-36.png',
@@ -78,9 +78,7 @@ class Character extends MovableObject {
         'img/2_character_pepe/5_dead/D-53.png',
         'img/2_character_pepe/5_dead/D-54.png',
         'img/2_character_pepe/5_dead/D-55.png',
-        'img/2_character_pepe/5_dead/D-56.png',
-        'img/2_character_pepe/5_dead/D-57.png',
-
+        'img/2_character_pepe/5_dead/D-56.png'
     ];
 
 
@@ -92,11 +90,14 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
-        this.animate();
+        this.animateMove();
+        this.animateCondition();
+        this.animateWalkingSpeed();
+        this.groundInterval();
         this.applyGravity();
     }
 
-    animate() {
+    animateMove() {
 
         setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x && !this.hurts) {
@@ -126,18 +127,22 @@ class Character extends MovableObject {
             }
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
+    }
 
-
-        setInterval(() => {
+    animateCondition() {
+        this.characterConditionInterval = setInterval(() => {
             if (this.isDead()) {
-                this.playAnimation(this.IMAGES_DEAD);
+                for (let i = 1; i < 999; i++) window.clearInterval(i);
+                this.walking_sound.pause();
+                this.characterDieAnimation();
             }
             else if (this.isHurt(0.7)) {
                 this.playAnimation(this.IMAGES_HURT);
             }
             else if (this.isAboveGround()) {
                 this.longIdle = 0;
-                this.playAnimation(this.IMAGES_JUMPING);
+                this.characterJumpAnimation();
+                clearInterval(this.characterConditionInterval);
             }
             else if ((this.world.keyboard.RIGHT || this.world.keyboard.LEFT && this.x > 0) && this.x < this.world.level.level_end_x) {
                 this.counter++;
@@ -152,7 +157,9 @@ class Character extends MovableObject {
                 this.amountCounter = 0;
             }
         }, 50);
+    }
 
+    animateWalkingSpeed() {
 
         setInterval(() => {
             if ((!this.world.keyboard.LEFT && !this.world.keyboard.RIGHT) || this.x <= 0 || this.x > this.world.level.level_end_x) {
@@ -164,7 +171,9 @@ class Character extends MovableObject {
             }
             else this.longIdle = 0;
         }, 300);
+    }
 
+    groundInterval() {
         setInterval(() => {
             if (this.y > 190) {
                 this.y = 190;
@@ -186,4 +195,42 @@ class Character extends MovableObject {
         this.amountCounter = 0;
     }
 
+    backwardJump() {
+        if (!this.hurts) {
+            this.hurts = true;
+            this.speedY = 15;
+            this.stopIncreasingSpeed();
+            this.hurt_sound.play();
+            if (this.otherDirection) {
+                this.backwardIntervall = setInterval(() => { this.x++ }, 1000 / 200);
+            }
+            else {
+                this.backwardIntervall = setInterval(() => { this.x-- }, 1000 / 200);
+            }
+            setTimeout(() => {
+                clearInterval(this.backwardIntervall);
+                this.hurts = false;
+            }, 700);
+        }
+    }
+
+    characterJumpAnimation() {
+        this.characterJumpInterval = setInterval(() => {
+            this.playAnimation(this.IMAGES_JUMPING);
+            console.log('jump');
+        }, 150);
+        setTimeout(() => {
+            this.animateCondition();
+            clearInterval(this.characterJumpInterval);
+        }, 1000);
+    }
+
+    characterDieAnimation() {
+
+        this.characterDieInterval = setInterval(() => {
+            this.playAnimation(this.IMAGES_DEAD);
+        }, 340);
+        setTimeout(() => { clearInterval(this.characterDieInterval) }, 1900);
+        
+    }
 }
