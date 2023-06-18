@@ -6,8 +6,8 @@ let win_Sound = new Audio('audio/win.mp3');
 let mute = false;
 
 function init() {
-    canvas = document.getElementById('canvas');
-    world = new World(canvas, keyboard);
+
+
 }
 
 window.addEventListener("keydown", (e) => {
@@ -65,7 +65,6 @@ window.addEventListener("keyup", (e) => {
 
 function gameOver(bo) {
     document.getElementById('canvas').classList.add('d-none');
-    document.getElementById('endScreenId').classList.remove('d-none');
     if (bo) {
         document.getElementById('gameOverId').classList.remove('d-none');
         win_Sound.play();
@@ -83,12 +82,25 @@ function showButtonAfterPlayedMusik(sound) {
 
     current_sound.addEventListener('ended', () => {
         console.log('juhuuuuuuuuu');
-        // hier noch Button back to Menu einblenden
+        document.getElementById('goBackMenuId').classList.remove('d-none');
     })
 }
 
 function stopAllInterval() {
     for (let i = 1; i < 999; i++) window.clearInterval(i);
 }
+
+function playGame() {
+    document.getElementById('menuId').classList.add('d-none'); //close Menu
+    document.getElementById('canvas').classList.remove('d-none'); //open canvas
+    initLevel1();
+    canvas = document.getElementById('canvas');
+    world = new World(canvas, keyboard);
+}
+
+function goBackToMenu() {
+    window.location.replace('index.html');
+}
+
 
 

@@ -93,7 +93,7 @@ class Character extends MovableObject {
         this.animateMove();
         this.animateCondition();
         this.animateWalkingSpeed();
-        this.groundInterval();
+        /* this.groundInterval(); */
         this.applyGravity();
     }
 
@@ -173,14 +173,14 @@ class Character extends MovableObject {
         }, 300);
     }
 
-    groundInterval() {
+/*     groundInterval() {
         setInterval(() => {
             if (this.y > 190) {
                 this.y = 190;
             }
         }, 300);
     }
-
+ */
     increasingSpeed() {
         if (this.speed < 8) {
             this.speed *= 1.01;

@@ -16,6 +16,9 @@ class MovableObject extends DrawableObject {
     applyGravity() {
         this.applyGravityInterval = setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
+                if (this.y - this.speedY > 190 && this instanceof Character) {   // if the character would come over the ground, calculate the difference and subtract it from the SpeedY so that you get exactly the ground y coordinate 
+                    this.speedY = this.speedY - (190 - (this.y - this.speedY));
+                }
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
             }

@@ -18,11 +18,9 @@ body {
 
 
 canvas {
-    /* display: none; */
     background-color: black;
     border: 6px solid #D5913C;
     border-radius: 6px;
-    display: none;
 }
 
 .menu {
@@ -43,6 +41,7 @@ canvas {
 }
 
 .btn:hover {
+    cursor: pointer;
     transition: all .3s;
     background-color: #FFDF00;
 }
@@ -55,26 +54,33 @@ canvas {
     padding-right: 60px;
 }
 
+.go-back-menu{
+    position: absolute;
+    bottom: 25px;
+    left: calc(50% - 562px/2);
+    padding-left: 60px;
+    padding-right: 60px; 
+}
+
 .soundbutton, .keybutton {
     padding: 10px;
-    margin-left: 25px;
     display: flex;
     align-items: center;
     justify-content: center;
-    
 }
 
-.soundbutton img{
-    height: 36px;
+.soundbutton img {
+    height: 48px;
 }
 
-.setting-Container{
+.setting-Container {
+    width: 180px;
     position: absolute;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     top: 20px;
-    left: 100px;
+    right: 50px;
 }
 
 
@@ -91,6 +97,39 @@ canvas {
 .gameover-image {
     animation: end-image 1.5s;
 }
+
+.keyboard-info {
+    position: absolute;
+    top: -440px;
+    right: 0;
+    height: 300px;
+    width: 300px;
+    padding-top: 140px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.418);
+    z-index: 5;
+    transition: all 1s ease-in-out;
+    border-radius: 30px 0px 0px 30px;
+}
+
+.keyboard-info img {
+    filter: invert(100%);
+    width: 36px;
+    opacity: 0.8;
+    margin-right: 25px;
+
+}
+
+.instruction-cell {
+    margin-bottom: 35px;
+    opacity: 0.8;
+    display: flex;
+    align-items: center;
+    padding-left: 25px;
+    font-size: 10px;
+
+}
+
 
 
 @keyframes end-image {

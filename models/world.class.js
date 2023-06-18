@@ -33,11 +33,7 @@ class World {
     }
 
     playBackgroundMusik() {
-        this.level.backgroundMusik.autoplay = true;
-        this.level.backgroundMusik.volume = 0.2;
-        this.level.backgroundMusik.muted = true;
-        this.level.backgroundMusik.play();
-
+        playAudio(this.level.backgroundMusik, 0.2)
     }
 
     allowThrowing() {
@@ -66,7 +62,7 @@ class World {
                     enemy.hurt_sound.play();
                     enemy.hurt_sound.volume = 0.05;
                 } else {
-                    if (!enemy.isHurt(2000)) {
+                    if (!enemy.isHurt(2)) {
                         this.character.hit();
                         this.character.backwardJump();
                         this.statusBar.setPercentage(this.character.energy);
@@ -89,7 +85,7 @@ class World {
     checkCollisionsThrowableObjectsWithEnemies() {
         this.throwableObjects.forEach((bottle) => {
             this.level.enemies.forEach((enemy) => {
-                if (bottle.isColliding(enemy) && !enemy.isHurt(1.5)) {
+                if (bottle.isColliding(enemy) && !enemy.isHurt(1.5) && !enemy.isDead) {
                     enemy.hitEnemy();
                     enemy.hurt_sound.play();
                     this.bottleBreaks(bottle);
