@@ -29,6 +29,7 @@ class World {
             this.checkThrowObjects();
             this.checkCollisionsThrowableObjectsWithTheGround();
             this.checkCollisionsThrowableObjectsWithEnemies();
+            this.checkCollisionsWithCoins();
         }, 25)
     }
 
@@ -69,6 +70,15 @@ class World {
                         console.log('Collision with Character, energy is ', this.character.energy);
                     }
                 }
+            }
+        })
+
+    }
+
+    checkCollisionsWithCoins() {
+        this.level.coins.forEach((coin) => {
+            if (this.character.isColliding(coin)) {
+                coin.collected();
             }
         })
 
@@ -123,9 +133,9 @@ class World {
         // ------ Space for fixed objects --------
         this.addToMap(this.statusBar);
         this.ctx.translate(this.camera_x, 0);
-
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.throwableObjects);
         this.addToMap(this.character);
 

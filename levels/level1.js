@@ -35,6 +35,10 @@ function initLevel1() {
             new BackgroundObject('img/5_background/layers/2_second_layer/2.png', 719 * 3),
             new BackgroundObject('img/5_background/layers/1_first_layer/2.png', 719 * 3),
         ],
+        [
+            new Coin(100, 100),
+            new Coin(500, 150)
+        ],
         new Audio('audio/sandstorm_background.mp3')
 
 

@@ -1,0 +1,7 @@
+class Collectables extends MovableObject {
+
+
+
+
+
+}

@@ -3,6 +3,7 @@ class Character extends MovableObject {
     characterDieInterval;
     world;
     walking_sound = new Audio('audio/walking5.mp3');
+    jump_sound = new Audio('audio/jump.mp3');
     hurt_sound = new Audio('audio/hurts.mp3');
     stop = true;
     height = 270;
@@ -173,14 +174,14 @@ class Character extends MovableObject {
         }, 300);
     }
 
-/*     groundInterval() {
-        setInterval(() => {
-            if (this.y > 190) {
-                this.y = 190;
-            }
-        }, 300);
-    }
- */
+    /*     groundInterval() {
+            setInterval(() => {
+                if (this.y > 190) {
+                    this.y = 190;
+                }
+            }, 300);
+        }
+     */
     increasingSpeed() {
         if (this.speed < 8) {
             this.speed *= 1.01;
@@ -217,7 +218,6 @@ class Character extends MovableObject {
     characterJumpAnimation() {
         this.characterJumpInterval = setInterval(() => {
             this.playAnimation(this.IMAGES_JUMPING);
-            console.log('jump');
         }, 150);
         setTimeout(() => {
             this.animateCondition();
