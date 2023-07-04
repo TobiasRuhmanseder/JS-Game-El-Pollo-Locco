@@ -39,6 +39,10 @@ function initLevel1() {
             new Coin(100, 100),
             new Coin(500, 150)
         ],
+        [
+            new Platform(500, 220),
+            new Platform(800, 300)
+        ],
         new Audio('audio/sandstorm_background.mp3')
 
 

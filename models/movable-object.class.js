@@ -13,6 +13,7 @@ class MovableObject extends DrawableObject {
     bottleGround = 390;
 
 
+
     applyGravity() {
         this.applyGravityInterval = setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
@@ -42,7 +43,11 @@ class MovableObject extends DrawableObject {
     }
 
     isCollidingOnTop(obj) {
-        return this.y + this.height - this.offset.bottom <= obj.y + obj.height
+        return this.y + this.height - this.offset.bottom <= obj.y + obj.height;
+    }
+
+    isCollidingOnTopOfThePlatform(obj) {
+        return this.y + this.height - this.offset.bottom <= obj.y + obj.offset.top;
     }
 
     playAnimation(images) {
@@ -82,7 +87,6 @@ class MovableObject extends DrawableObject {
             this.lastHit = new Date().getTime();
         }
     }
-
     isHurt(time) {
         let timepassed = new Date().getTime() - this.lastHit; /* Difference in ms */
         timepassed = timepassed / 1000;

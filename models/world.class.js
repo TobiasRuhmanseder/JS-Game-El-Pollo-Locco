@@ -30,6 +30,7 @@ class World {
             this.checkCollisionsThrowableObjectsWithTheGround();
             this.checkCollisionsThrowableObjectsWithEnemies();
             this.checkCollisionsWithCoins();
+            this.checkCollisionsWithPlatforms();
         }, 25)
     }
 
@@ -81,7 +82,17 @@ class World {
                 coin.collected();
             }
         })
+    }
 
+    checkCollisionsWithPlatforms() {
+        this.level.platforms.forEach((platform) => {
+            if (this.character.isColliding(platform)) {
+                if (this.character.y + this.character.height - this.character.offset.bottom < platform.y + platform.offset.top) {
+                    console.log('jetzt');
+                    this.character.speedY = 0;
+                }
+            }
+        })
     }
 
     checkCollisionsThrowableObjectsWithTheGround() {
@@ -136,6 +147,7 @@ class World {
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.coins);
+        this.addObjectsToMap(this.level.platforms);
         this.addObjectsToMap(this.throwableObjects);
         this.addToMap(this.character);
 
