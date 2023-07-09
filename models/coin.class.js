@@ -1,5 +1,5 @@
 class Coin extends Collectables {
-    coinSound = new Audio('audio/coin.mp3');
+    collecting_Sound = new Audio('audio/coin.mp3');
     offset = {
         top: 50,
         bottom: 50,
@@ -28,9 +28,5 @@ class Coin extends Collectables {
         }, 650);
     }
 
-    collected() {
-        let index = world.level.coins.indexOf(this);
-        playAudio(this.coinSound, 1);
-        world.level.coins.splice(index, 1);
-    }
+
 }

@@ -14,7 +14,7 @@ class Character extends MovableObject {
     amountCounter = 0;
     speedSound = 1;
     y = 190;
-
+    isOnAPlatform = false;
     offset = {
         top: 120,
         bottom: 10,
@@ -94,8 +94,8 @@ class Character extends MovableObject {
         this.animateMove();
         this.animateCondition();
         this.animateWalkingSpeed();
-        /* this.groundInterval(); */
         this.applyGravity();
+        this.checkCollidingWithTheGround();
     }
 
     animateMove() {
@@ -106,7 +106,7 @@ class Character extends MovableObject {
                 this.moveRight();
                 this.otherDirection = false;
                 if (!this.isAboveGround()) {
-                    this.walking_sound.play();
+                    playAudio(this.walking_sound, 1);
                     this.walking_sound.playbackRate = this.speedSound;
                 }
                 this.increasingSpeed();
@@ -116,16 +116,25 @@ class Character extends MovableObject {
                 this.moveLeft();
                 this.otherDirection = true;
                 if (!this.isAboveGround()) {
-                    this.walking_sound.play();
+                    playAudio(this.walking_sound, 1);
                     this.walking_sound.playbackRate = this.speedSound;
                 }
                 this.increasingSpeed();
             }
-            if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+            if (this.world.keyboard.SPACE && (!this.isAboveGround())) {
                 this.jump();
                 this.walking_sound.pause();
                 this.stopIncreasingSpeed();
             }
+
+            if (this.world.keyboard.SPACE && this.isOnAPlatform) {
+                this.jump();
+                this.isOnAPlatform = false;
+                this.walking_sound.pause();
+                this.stopIncreasingSpeed();
+            }
+
+
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
     }
@@ -140,7 +149,7 @@ class Character extends MovableObject {
             else if (this.isHurt(0.7)) {
                 this.playAnimation(this.IMAGES_HURT);
             }
-            else if (this.isAboveGround()) {
+            else if (this.isAboveGround() && !this.isOnAPlatform && this.speedY >= 0) {
                 this.longIdle = 0;
                 this.characterJumpAnimation();
                 clearInterval(this.characterConditionInterval);
@@ -174,14 +183,17 @@ class Character extends MovableObject {
         }, 300);
     }
 
-    /*     groundInterval() {
-            setInterval(() => {
-                if (this.y > 190) {
-                    this.y = 190;
-                }
-            }, 300);
-        }
-     */
+
+    checkCollidingWithTheGround() {
+        setInterval(() => {
+            if (this.y >= this.world.groundY) {
+                this.isOnAPlatform = false;
+                this.isJumping = false;
+            }
+        }, 500);
+
+    }
+
     increasingSpeed() {
         if (this.speed < 8) {
             this.speed *= 1.01;
@@ -201,7 +213,7 @@ class Character extends MovableObject {
             this.hurts = true;
             this.speedY = 15;
             this.stopIncreasingSpeed();
-            this.hurt_sound.play();
+            playAudio(this.hurt_sound, 1);
             if (this.otherDirection) {
                 this.backwardIntervall = setInterval(() => { this.x++ }, 1000 / 200);
             }
@@ -218,11 +230,12 @@ class Character extends MovableObject {
     characterJumpAnimation() {
         this.characterJumpInterval = setInterval(() => {
             this.playAnimation(this.IMAGES_JUMPING);
-        }, 150);
+        }, 160);
         setTimeout(() => {
+            this.currentImage = 0;
             this.animateCondition();
             clearInterval(this.characterJumpInterval);
-        }, 1000);
+        }, 800);
     }
 
     characterDieAnimation() {
@@ -233,6 +246,5 @@ class Character extends MovableObject {
             clearInterval(this.characterDieInterval)
             gameOver(false);
         }, 1900);
-
     }
 }

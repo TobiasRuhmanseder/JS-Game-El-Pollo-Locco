@@ -2,8 +2,6 @@ btnSound = new Audio('audio/hover_btn.mp3');
 swipeSound = new Audio('audio/swipe.mp3');
 
 
-
-
 window.addEventListener("DOMContentLoaded", () => {
     let playButton = document.getElementById('playButtonId');
     let volumeButton = document.getElementById('volumeId');
@@ -41,7 +39,6 @@ function playAudio(path, volume) {
 }
 
 function openKeyboardInstruction() {
-    /* document.getElementById('keyboard-infoId').classList.remove('d-none'); */
     document.getElementById('keyboard-infoId').style.top = '0px';
     playAudio(swipeSound, 0.2);
 }

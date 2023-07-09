@@ -8,6 +8,8 @@ class World {
     keyboard;
     camera_x;
     level = level1;
+    groundY = 190;
+    alreadyInCalculation = false;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -29,7 +31,7 @@ class World {
             this.checkThrowObjects();
             this.checkCollisionsThrowableObjectsWithTheGround();
             this.checkCollisionsThrowableObjectsWithEnemies();
-            this.checkCollisionsWithCoins();
+            this.checkCollisionsWithCollectables();
             this.checkCollisionsWithPlatforms();
         }, 25)
     }
@@ -61,8 +63,7 @@ class World {
                 if (this.character.isCollidingOnTop(enemy) && !this.character.hurts && !instanceOf && this.character.speedY <= 0) {
                     this.character.speedY = 15;
                     enemy.hitEnemy();
-                    enemy.hurt_sound.play();
-                    enemy.hurt_sound.volume = 0.05;
+                    playAudio(enemy.hurt_sound, 0.5)
                 } else {
                     if (!enemy.isHurt(2)) {
                         this.character.hit();
@@ -76,23 +77,28 @@ class World {
 
     }
 
-    checkCollisionsWithCoins() {
-        this.level.coins.forEach((coin) => {
-            if (this.character.isColliding(coin)) {
-                coin.collected();
+    checkCollisionsWithCollectables() {
+        this.level.collectables.forEach((obj) => {
+            if (this.character.isColliding(obj)) {
+                obj.collected();
             }
         })
     }
 
     checkCollisionsWithPlatforms() {
+        let checkVar = 0;
         this.level.platforms.forEach((platform) => {
-            if (this.character.isColliding(platform)) {
-                if (this.character.y + this.character.height - this.character.offset.bottom < platform.y + platform.offset.top) {
-                    console.log('jetzt');
-                    this.character.speedY = 0;
+            if (this.character.isCollidingOnTopOfThePlatform(platform)) {
+                checkVar++;
+                if (this.character.offsetBottomY() - this.character.speedY >= platform.y + platform.offset.top) { // if the character would come under the plaftform, calculate the difference and subtract it from the SpeedY so that you get exactly the platform "offset Y top" coordinate 
+                    this.character.isOnAPlatform = true;
+                    this.character.speedY = this.character.speedY - (platform.y + platform.offset.top - (this.character.offsetBottomY() - this.character.speedY));
+                    console.log(this.character.speedY);
+                    this.character.y -= this.character.speedY;
                 }
             }
         })
+        if (checkVar < 1) this.character.isOnAPlatform = false;
     }
 
     checkCollisionsThrowableObjectsWithTheGround() {
@@ -108,7 +114,7 @@ class World {
             this.level.enemies.forEach((enemy) => {
                 if (bottle.isColliding(enemy) && !enemy.isHurt(1.5) && !enemy.isDead) {
                     enemy.hitEnemy();
-                    enemy.hurt_sound.play();
+                    playAudio(enemy.hurt_sound, 0.5)
                     this.bottleBreaks(bottle);
                 }
             })
@@ -131,7 +137,7 @@ class World {
 
     enemyHurt(enemy) {
         enemy.energy -= 20;
-        enemy.hurt_sound.play();
+        /* enemy.hurt_sound.play(); */
     }
 
 
@@ -146,7 +152,7 @@ class World {
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.enemies);
-        this.addObjectsToMap(this.level.coins);
+        this.addObjectsToMap(this.level.collectables);
         this.addObjectsToMap(this.level.platforms);
         this.addObjectsToMap(this.throwableObjects);
         this.addToMap(this.character);

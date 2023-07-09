@@ -3,11 +3,10 @@ let world;
 let keyboard = new Keyboard();
 let lose_Sound = new Audio('audio/lose.mp3');
 let win_Sound = new Audio('audio/win.mp3');
-let mute = false;
+let mute = true; 
 
 function init() {
-
-
+    playGame();
 }
 
 window.addEventListener("keydown", (e) => {

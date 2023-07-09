@@ -1,24 +1,29 @@
-class Coin extends Collectables {
-    coinSound = new Audio('audio/coin.mp3');
+class Bottle extends Collectables {
+    collecting_Sound = new Audio('audio/bottle_collect.mp3');
     offset = {
-        top: 50,
-        bottom: 50,
-        left: 35,
-        right: 35
+        top: 12,
+        bottom: 10,
+        left: 30,
+        right: 30
     }
 
-    IMAGES_COIN = [
-        'img/8_coin/coin_1.png',
-        'img/8_coin/coin_2.png'
+    IMAGE_BOTTLE_AIR = [
+        'img/6_salsa_bottle/salsa_bottle.png',
+    ];
+
+    IMAGE_BOTTLE_GROUND = [
+        'img/6_salsa_bottle/2_salsa_bottle_on_ground.png',
     ];
 
 
+
+
     constructor(x, y) {
-        super().loadImage('img/8_coin/coin_1.png');
+        super().loadImage(this.IMAGE_BOTTLE_AIR);
         this.x = x;
         this.y = y;
-        this.loadImages(this.IMAGES_COIN);
-        this.animate();
+        this.width = 80;
+        this.height = 100;
     }
 
 
@@ -28,9 +33,5 @@ class Coin extends Collectables {
         }, 650);
     }
 
-    collected() {
-        let index = world.level.coins.indexOf(this);
-        playAudio(this.coinSound, 1);
-        world.level.coins.splice(index, 1);
-    }
+
 }

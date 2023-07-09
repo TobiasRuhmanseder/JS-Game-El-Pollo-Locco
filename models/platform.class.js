@@ -16,6 +16,5 @@ class Platform extends MovableObject {
         this.height = 50;
     }
 
-
 }
 

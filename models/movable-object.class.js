@@ -5,20 +5,22 @@ class MovableObject extends DrawableObject {
     y;
     otherDirection = false;
     speedY = 0;
-    acceleration = 2;
+    acceleration = 2.5;
     energy = 100;
     lastHit = 1;
     hurts = false;
     backwardIntervall = 0;
     bottleGround = 390;
+    chickenGround = 410;
+    lastCalculateSpeedY = false;
 
 
 
     applyGravity() {
         this.applyGravityInterval = setInterval(() => {
-            if (this.isAboveGround() || this.speedY > 0) {
+            if (this.isAboveGround() && !this.isOnAPlatform || this.speedY > 0) {
                 if (this.y - this.speedY > 190 && this instanceof Character) {   // if the character would come over the ground, calculate the difference and subtract it from the SpeedY so that you get exactly the ground y coordinate 
-                    this.speedY = this.speedY - (190 - (this.y - this.speedY));
+                    this.speedY = this.speedY - (190 - (this.y - this.speedY))
                 }
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
@@ -29,6 +31,8 @@ class MovableObject extends DrawableObject {
     isAboveGround() {
         if (this instanceof ThrowableObject) { // Throwable object should always fall
             return this.y < this.bottleGround;
+        } else if (this instanceof ChickenSmall) {
+            return this.y < this.chickenGround;
         } else {
             return this.y < 190;
         }
@@ -47,7 +51,13 @@ class MovableObject extends DrawableObject {
     }
 
     isCollidingOnTopOfThePlatform(obj) {
-        return this.y + this.height - this.offset.bottom <= obj.y + obj.offset.top;
+        return this.x + this.width - this.offset.right > obj.x + obj.offset.left &&
+            this.y + this.height - this.offset.bottom <= obj.y + obj.offset.top &&
+            this.x + this.offset.left < obj.x + obj.width - obj.offset.right && this.speedY <= 0;
+    }
+
+    offsetBottomY() {
+        return this.y + this.height - this.offset.bottom;
     }
 
     playAnimation(images) {
@@ -67,7 +77,8 @@ class MovableObject extends DrawableObject {
 
     jump() {
         this.speedY = 30;
-        playAudio(this.jump_sound, 1);
+        /* this.isJumping = true; */
+        playAudio(this.jump_sound, 0.15);
     }
 
     hit() {
