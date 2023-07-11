@@ -33,5 +33,4 @@ class Bottle extends Collectables {
         }, 650);
     }
 
-
 }
