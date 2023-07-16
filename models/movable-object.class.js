@@ -78,11 +78,11 @@ class MovableObject extends DrawableObject {
     jump() {
         this.speedY = 27;
         this.isJumping = true;
-        playAudio(this.jump_sound, 0.15);
+        playAudio(this.jump_sound, 1);
     }
 
     hit() {
-        this.energy -= 10;
+        this.energy -= 20;
         if (this.energy < 0) {
             this.energy = 0;
         } else {

@@ -46,9 +46,6 @@ class ThrowableObject extends MovableObject {
             if (this.break) this.playAnimation(this.IMAGES_BOTTLE_BREAK);
             else this.playAnimation(this.IMAGES_BOTTLE_ROTATE);
         }, this.intervalCounter);
-
-
-
     }
 
     throw() {

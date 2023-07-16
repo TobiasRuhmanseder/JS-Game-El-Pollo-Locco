@@ -3,10 +3,10 @@ let world;
 let keyboard = new Keyboard();
 let lose_Sound = new Audio('audio/lose.mp3');
 let win_Sound = new Audio('audio/win.mp3');
-let mute = false; 
+let mute = false;
 
 function init() {
-    playGame();
+    /* playGame(); */
 }
 
 window.addEventListener("keydown", (e) => {
@@ -66,23 +66,24 @@ function gameOver(bo) {
     document.getElementById('canvas').classList.add('d-none');
     if (bo) {
         document.getElementById('gameOverId').classList.remove('d-none');
-        win_Sound.play();
+        playAudio(win_Sound, 1, 1);
         showButtonAfterPlayedMusik(win_Sound);
-
     } else {
         document.getElementById('lostId').classList.remove('d-none');
-        lose_Sound.play();
+        playAudio(lose_Sound, 1, 1);
         showButtonAfterPlayedMusik(lose_Sound);
     }
 }
 
 function showButtonAfterPlayedMusik(sound) {
     current_sound = sound;
-
-    current_sound.addEventListener('ended', () => {
-        console.log('juhuuuuuuuuu');
-        document.getElementById('goBackMenuId').classList.remove('d-none');
-    })
+    if (!mute) {
+        current_sound.addEventListener('ended', () => {
+            document.getElementById('goBackMenuId').classList.remove('d-none');
+        })
+    } else {
+        setTimeout(() => { document.getElementById('goBackMenuId').classList.remove('d-none'); }, 3000)
+    }
 }
 
 function stopAllInterval() {

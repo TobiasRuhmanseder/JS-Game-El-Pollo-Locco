@@ -30,11 +30,19 @@ function toggleVolume() {
 
 }
 
-function playAudio(path, volume) {
+function playAudio(path, volume, repeat) {
     if (mute) { } //do nothing
     else {
         path.volume = volume;
         path.play();
+        if (repeat == 1) path.loop = false;
+    }
+}
+
+function stopAudio(path) {
+    if (mute) { } //do nothing
+    else {
+        path.pause();
     }
 }
 

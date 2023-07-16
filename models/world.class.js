@@ -66,7 +66,6 @@ class World {
             playAudio(this.no_throwing_sound, 1);
             setTimeout(() => { this.no_throwing_sound.pause }, 2000);
         }
-
     }
 
     checkCollisions() {
@@ -76,13 +75,13 @@ class World {
                 if (this.character.isCollidingOnTop(enemy) && !this.character.hurts && !instanceOf && this.character.speedY <= 0) {
                     this.character.speedY = 15;
                     enemy.hitEnemy();
+                    enemy.hurts = true;
                     playAudio(enemy.hurt_sound, 0.5)
                 } else {
-                    if (!enemy.isHurt(2)) {
+                    if (/* !enemy.isHurt(2) */ enemy.energy > 0 && !this.character.hurts) {
                         this.character.hit();
                         this.character.backwardJump();
-                        this.statusBar.setPercentage(this.character.energy);
-                        console.log('Collision with Character, energy is ', this.character.energy);
+                        this.healthBar.setPercentage(this.character.energy);
                     }
                 }
             }
@@ -106,7 +105,6 @@ class World {
                 if (this.character.offsetBottomY() - this.character.speedY >= platform.y + platform.offset.top) { // if the character would come under the plaftform, calculate the difference and subtract it from the SpeedY so that you get exactly the platform "offset Y top" coordinate 
                     this.character.isOnAPlatform = true;
                     this.character.speedY = this.character.speedY - (platform.y + platform.offset.top - (this.character.offsetBottomY() - this.character.speedY));
-                    console.log(this.character.speedY);
                     this.character.y -= this.character.speedY;
                 }
             }
@@ -127,7 +125,7 @@ class World {
             this.level.enemies.forEach((enemy) => {
                 if (bottle.isColliding(enemy) && !enemy.isHurt(1.5) && !enemy.isDead) {
                     enemy.hitEnemy();
-                    playAudio(enemy.hurt_sound, 0.5)
+                    playAudio(enemy.hurt_sound, 0.5);
                     this.bottleBreaks(bottle);
                 }
             })
@@ -157,18 +155,17 @@ class World {
         this.ctx.clearRect(0, 0, canvas.width, canvas.height); /* delete the canvas before it load new */
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
-
+        this.addObjectsToMap(this.level.clouds);
+        this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.level.collectables);
+        this.addObjectsToMap(this.level.platforms);
+        this.addObjectsToMap(this.throwableObjects);
         this.ctx.translate(-this.camera_x, 0);
         // ------ Space for fixed objects --------
         this.addToMap(this.healthBar);
         this.addToMap(this.bottleBar);
         this.addToMap(this.coinBar);
         this.ctx.translate(this.camera_x, 0);
-        this.addObjectsToMap(this.level.clouds);
-        this.addObjectsToMap(this.level.enemies);
-        this.addObjectsToMap(this.level.collectables);
-        this.addObjectsToMap(this.level.platforms);
-        this.addObjectsToMap(this.throwableObjects);
         this.addToMap(this.character);
 
         this.ctx.translate(-this.camera_x, 0);
@@ -210,7 +207,6 @@ class World {
         mo.x = mo.x * -1;
         this.ctx.restore();
     }
-
 
     calculateAmountCollectables() {
         this.level.collectables.forEach((obj) => {

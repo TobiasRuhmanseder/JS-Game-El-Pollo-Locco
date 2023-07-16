@@ -2,6 +2,5 @@ class Collectables extends MovableObject {
 
 
 
-    
 
 }
