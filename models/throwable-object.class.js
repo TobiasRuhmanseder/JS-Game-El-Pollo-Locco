@@ -52,7 +52,7 @@ class ThrowableObject extends MovableObject {
     }
 
     throw() {
-        this.throwing_sound.play();
+        playAudio(this.throwing_sound, 1);
         this.speedY = 18;
         this.applyGravity();
         world.character.longIdle = 0; // wake up if the character is sleeping
@@ -60,6 +60,5 @@ class ThrowableObject extends MovableObject {
             if (this.direction) this.x -= 12;
             else this.x += 12;
         }, 25)
-
     }
 }

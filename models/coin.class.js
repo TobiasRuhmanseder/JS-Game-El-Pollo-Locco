@@ -28,5 +28,14 @@ class Coin extends Collectables {
         }, 650);
     }
 
+    collected() {
+        let index = world.level.collectables.indexOf(this);
+        playAudio(this.collecting_Sound, 1);
+        world.level.collectables.splice(index, 1);
+        world.collectedAmmountCoins++;
+        world.coinBar.setPercentage(100 / world.totalCoins * world.collectedAmmountCoins);
+
+    }
+
 
 }

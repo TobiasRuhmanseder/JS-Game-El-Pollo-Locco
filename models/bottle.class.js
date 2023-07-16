@@ -33,4 +33,13 @@ class Bottle extends Collectables {
         }, 650);
     }
 
+    collected() {
+        let index = world.level.collectables.indexOf(this);
+        playAudio(this.collecting_Sound, 1);
+        world.level.collectables.splice(index, 1);
+        world.collectedAmmountBottles++;
+        world.bottleBar.setPercentage(100 / world.totalBottles * world.collectedAmmountBottles);
+
+    }
+
 }

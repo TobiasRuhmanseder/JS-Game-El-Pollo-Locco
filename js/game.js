@@ -3,7 +3,7 @@ let world;
 let keyboard = new Keyboard();
 let lose_Sound = new Audio('audio/lose.mp3');
 let win_Sound = new Audio('audio/win.mp3');
-let mute = true; 
+let mute = false; 
 
 function init() {
     playGame();

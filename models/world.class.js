@@ -1,8 +1,15 @@
 class World {
     character = new Character();
-    statusBar = new StatusBar();
+    healthBar = new HealthBar();
+    bottleBar = new BottleBar();
+    coinBar = new CoinBar();
+    totalBottles = 0;
+    collectedAmmountBottles = 0;
+    collectedAmmountCoins = 0;
+    totalCoins = 0;
     throwableObjects = [];
     throwing = true;
+    no_throwing_sound = new Audio('audio/no_throwing_objects.mp3');
     ctx;
     canvas;
     keyboard;
@@ -19,6 +26,7 @@ class World {
         this.setWorld();
         this.run();
         this.playBackgroundMusik();
+        this.calculateAmountCollectables()
     }
 
     setWorld() {
@@ -48,10 +56,15 @@ class World {
     }
 
     checkThrowObjects() {
-        if (this.keyboard.D && this.throwing) {
+        if (this.keyboard.D && this.throwing && this.collectedAmmountBottles > 0) {
             this.allowThrowing();
             let bottle = new ThrowableObject(this.character.x + 50, this.character.y + 100);
             this.throwableObjects.push(bottle);
+            this.collectedAmmountBottles--;
+            this.bottleBar.setPercentage(100 / world.totalBottles * world.collectedAmmountBottles);
+        } else if (this.keyboard.D && this.throwing && this.collectedAmmountBottles <= 0) {
+            playAudio(this.no_throwing_sound, 1);
+            setTimeout(() => { this.no_throwing_sound.pause }, 2000);
         }
 
     }
@@ -128,7 +141,7 @@ class World {
         clearInterval(bottle.throwInterval);
         clearInterval(bottle.applyGravityInterval);
         bottle.animate();
-        bottle.breaking_sound.play();
+        playAudio(bottle.breaking_sound, 1);
         setTimeout(() => {
             this.throwableObjects.splice(this.throwableObjects.indexOf(bottle), 1);
             clearInterval(bottle.animateBottleInterval);
@@ -137,7 +150,6 @@ class World {
 
     enemyHurt(enemy) {
         enemy.energy -= 20;
-        /* enemy.hurt_sound.play(); */
     }
 
 
@@ -148,7 +160,9 @@ class World {
 
         this.ctx.translate(-this.camera_x, 0);
         // ------ Space for fixed objects --------
-        this.addToMap(this.statusBar);
+        this.addToMap(this.healthBar);
+        this.addToMap(this.bottleBar);
+        this.addToMap(this.coinBar);
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.enemies);
@@ -195,5 +209,17 @@ class World {
     flipImageBack(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();
+    }
+
+
+    calculateAmountCollectables() {
+        this.level.collectables.forEach((obj) => {
+            if (obj instanceof Bottle) {
+                this.totalBottles++;
+            }
+            if (obj instanceof Coin) {
+                this.totalCoins++;
+            }
+        })
     }
 }
