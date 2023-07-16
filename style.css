@@ -20,8 +20,23 @@ body {
 
 canvas {
     background-color: black;
+    display: block;
     border: 6px solid #D5913C;
     border-radius: 6px;
+}
+
+/* Smartphones--------------- */
+@media only screen and (max-width : 720px) {
+    canvas {
+        width: calc(100% - 12px);
+    }
+}
+
+/* Smartphones--------------- */
+@media only screen and (max-height : 480px) {
+    canvas {
+        height: calc(100vh - 12px);
+    }
 }
 
 .menu {
