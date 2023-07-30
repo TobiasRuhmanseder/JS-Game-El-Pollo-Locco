@@ -21,7 +21,6 @@ canvas {
     display: block;
     border: 6px solid #D5913C;
     border-radius: 6px;
-    z-index: -2;
 }
 
 .menu {
@@ -152,11 +151,10 @@ canvas {
 .playbutton-section {
     width: 100%;
     position: absolute;
-    bottom: 0px;
     display: none;
+    bottom: 0px;
     align-items: center;
     justify-content: space-between;
-    z-index: -1;
 }
 
 .playbutton-section img {
@@ -322,6 +320,7 @@ canvas {
 @media (max-height: 480px) {
     canvas {
         height: 100vh;
+        width: 100%;
     }
 }
 

@@ -136,6 +136,7 @@ function stopAllInterval() {
 function playGame() {
     document.getElementById('menuId').classList.add('d-none'); //close Menu
     document.getElementById('canvas').classList.remove('d-none'); //open canvas
+    document.getElementById('playbuttons').classList.remove('d-none'); //open canvas
     initLevel1();
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
