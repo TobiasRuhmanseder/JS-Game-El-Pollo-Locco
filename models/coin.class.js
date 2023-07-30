@@ -12,7 +12,6 @@ class Coin extends Collectables {
         'img/8_coin/coin_2.png'
     ];
 
-
     constructor(x, y) {
         super().loadImage('img/8_coin/coin_1.png');
         this.x = x;
@@ -20,7 +19,6 @@ class Coin extends Collectables {
         this.loadImages(this.IMAGES_COIN);
         this.animate();
     }
-
 
     animate() {
         setInterval(() => {

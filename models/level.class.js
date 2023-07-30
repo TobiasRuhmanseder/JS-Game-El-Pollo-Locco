@@ -7,7 +7,6 @@ class Level {
     backgroundMusik;
     level_end_x = 6000;
 
-
     constructor(enemies, clouds, backgroundObjects, collectables, platforms, backgroundMusik) {
         this.enemies = enemies;
         this.clouds = clouds;

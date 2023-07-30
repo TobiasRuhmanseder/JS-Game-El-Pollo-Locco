@@ -16,8 +16,6 @@ class Bottle extends Collectables {
     ];
 
 
-
-
     constructor(x, y) {
         super().loadImage(this.IMAGE_BOTTLE_AIR);
         this.x = x;
@@ -25,7 +23,6 @@ class Bottle extends Collectables {
         this.width = 80;
         this.height = 100;
     }
-
 
     animate() {
         setInterval(() => {

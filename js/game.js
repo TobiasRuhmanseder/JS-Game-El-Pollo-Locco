@@ -6,7 +6,7 @@ let win_Sound = new Audio('audio/win.mp3');
 let mute = false;
 
 function init() {
-    /* playGame(); */
+    bindMobileGamingButton();
 }
 
 window.addEventListener("keydown", (e) => {
@@ -61,6 +61,49 @@ window.addEventListener("keyup", (e) => {
         keyboard.D = false;
     }
 });
+
+/* Function for the mobile gaming button */
+function bindMobileGamingButton() {
+    document.getElementById('btnLeft').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.LEFT = true;
+    })
+
+    document.getElementById('btnLeft').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.LEFT = false;
+    })
+
+    document.getElementById('btnRight').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.RIGHT = true;
+    })
+
+    document.getElementById('btnRight').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.RIGHT = false;
+    })
+
+    document.getElementById('btnThrow').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.D = true;
+    })
+
+    document.getElementById('btnThrow').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.D = false;
+    })
+
+    document.getElementById('btnJump').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.SPACE = true;
+    })
+
+    document.getElementById('btnJump').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.SPACE = false;
+    })
+}
 
 function gameOver(bo) {
     document.getElementById('canvas').classList.add('d-none');

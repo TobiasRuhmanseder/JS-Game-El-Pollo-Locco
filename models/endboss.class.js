@@ -88,7 +88,6 @@ class Endboss extends MovableObject {
             }
             if (world.character.x >= this.x - 900 && !this.hadFirstContact) {
                 world.throwing = false;
-
             }
         }, 150);
 
@@ -109,7 +108,7 @@ class Endboss extends MovableObject {
             this.playAnimation(this.IMAGES_DEAD);
         }, 700);
         setTimeout(() => {
-            clearInterval(this.endbossDieInterval)
+            clearInterval(this.endbossDieInterval);
             gameOver(true);
         }, 2300);
     }

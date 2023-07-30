@@ -23,11 +23,11 @@ class ChickenSmall extends MovableObject {
 
     ];
 
-    constructor(x) {
+    constructor(x,) {
         super().loadImage('img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_DEAD);
-        this.x = x
+        this.x = x;
         this.speed = 0.35;
         this.energy = 20;
         this.animate();
@@ -36,7 +36,7 @@ class ChickenSmall extends MovableObject {
 
     animate() {
         this.animateChickenInterval = setInterval(() => {
-            /* this.moveLeft(); */
+            this.moveLeft();
         }, 1000 / 60)
 
         setInterval(() => {
@@ -48,12 +48,9 @@ class ChickenSmall extends MovableObject {
             else
                 this.playAnimation(this.IMAGES_WALKING);
         }, 100);
-
         setInterval(() => {
             if (!this.isDead)
                 this.speedY = 20;
-
-
         }, 3000)
 
     }

@@ -15,6 +15,16 @@ class DrawableObject {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
     }
 
+    loadImages(arr) {
+        arr.forEach((path) => {
+            let img = new Image();
+            img.src = path;
+            this.imageCache[path] = img;
+        });
+    }
+
+    /* -----------------     draw collision rectangel - only for development -------------------------- */
+
     drawFrame(ctx) {
         if (this instanceof Character || this instanceof Chicken) {
             ctx.beginPath();
@@ -26,7 +36,7 @@ class DrawableObject {
     }
 
     drawFrameOffset(ctx) {
-        if (this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof ThrowableObject || this instanceof Collectables || this instanceof Platform || this instanceof ChickenSmall ) {
+        if (this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof ThrowableObject || this instanceof Collectables || this instanceof Platform || this instanceof ChickenSmall) {
             ctx.beginPath();
             ctx.lineWidth = '3';
             ctx.strokeStyle = 'red';
@@ -35,12 +45,6 @@ class DrawableObject {
         }
     }
 
-    loadImages(arr) {
-        arr.forEach((path) => {
-            let img = new Image();
-            img.src = path;
-            this.imageCache[path] = img;
-        });
-    }
+    /* ------------------------------------------------------------------------------------------------- */
 
 }

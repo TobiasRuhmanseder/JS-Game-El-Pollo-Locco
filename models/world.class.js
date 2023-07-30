@@ -26,7 +26,7 @@ class World {
         this.setWorld();
         this.run();
         this.playBackgroundMusik();
-        this.calculateAmountCollectables()
+        this.calculateAmountCollectables();
     }
 
     setWorld() {
@@ -72,13 +72,14 @@ class World {
         this.level.enemies.forEach((enemy) => {
             let instanceOf = enemy instanceof Endboss;
             if (this.character.isColliding(enemy) && !enemy.isDead) {
-                if (this.character.isCollidingOnTop(enemy) && !this.character.hurts && !instanceOf && this.character.speedY <= 0) {
+                if (this.character.isCollidingOnTop(enemy) && !this.character.hurts && this.character.speedY <= 0) {
+                    this.jumpedOnAEnemy();
                     this.character.speedY = 15;
                     enemy.hitEnemy();
                     enemy.hurts = true;
                     playAudio(enemy.hurt_sound, 0.5)
                 } else {
-                    if (/* !enemy.isHurt(2) */ enemy.energy > 0 && !this.character.hurts) {
+                    if (enemy.energy > 0 && !this.character.hurts) {
                         this.character.hit();
                         this.character.backwardJump();
                         this.healthBar.setPercentage(this.character.energy);
@@ -86,7 +87,11 @@ class World {
                 }
             }
         })
+    }
 
+    jumpedOnAEnemy() {
+        this.character.jumpedOnAEnemy = true;
+        setTimeout(() => this.character.jumpedOnAEnemy = false, 1000);
     }
 
     checkCollisionsWithCollectables() {
@@ -150,7 +155,6 @@ class World {
         enemy.energy -= 20;
     }
 
-
     draw() {
         this.ctx.clearRect(0, 0, canvas.width, canvas.height); /* delete the canvas before it load new */
         this.ctx.translate(this.camera_x, 0);
@@ -167,9 +171,7 @@ class World {
         this.addToMap(this.coinBar);
         this.ctx.translate(this.camera_x, 0);
         this.addToMap(this.character);
-
         this.ctx.translate(-this.camera_x, 0);
-
         /* draw wird immer wieder aufgerufen - soweit die Grafikkarte hergibt */
         let self = this;
         requestAnimationFrame(function () {
@@ -188,8 +190,8 @@ class World {
             this.flipImage(mo);
         }
         mo.draw(this.ctx);
-        mo.drawFrame(this.ctx);
-        mo.drawFrameOffset(this.ctx);
+        // mo.drawFrame(this.ctx); // draw collision rectangel - only for development 
+        // mo.drawFrameOffset(this.ctx); // draw collision rectangel - only for development 
 
         if (mo.otherDirection) {
             this.flipImageBack(mo);

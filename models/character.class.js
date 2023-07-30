@@ -6,6 +6,7 @@ class Character extends MovableObject {
     jump_sound = new Audio('audio/jump.mp3');
     hurt_sound = new Audio('audio/hurts.mp3');
     stop = true;
+    jumpedOnAEnemy = false;
     height = 270;
     width = 120;
     speed = 2.5;
@@ -99,62 +100,60 @@ class Character extends MovableObject {
     }
 
     animateMove() {
-
         setInterval(() => {
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x && !this.hurts) {
-                if (this.otherDirection) this.stopIncreasingSpeed();
-                this.moveRight();
-                this.otherDirection = false;
-                if (!this.isAboveGround()) {
-                    playAudio(this.walking_sound, 1);
-                    this.walking_sound.playbackRate = this.speedSound;
-                }
-                this.increasingSpeed();
-            }
-            else if (this.world.keyboard.LEFT && this.x > 0 && !this.hurts) {
-                if (!this.otherDirection) this.stopIncreasingSpeed();
-                this.moveLeft();
-                this.otherDirection = true;
-                if (!this.isAboveGround()) {
-                    playAudio(this.walking_sound, 1);
-                    this.walking_sound.playbackRate = this.speedSound;
-                }
-                this.increasingSpeed();
-            }
-            if (this.world.keyboard.SPACE && (!this.isAboveGround())) {
-                this.jump();
-                this.walking_sound.pause();
-                this.stopIncreasingSpeed();
-            }
-
-            if (this.world.keyboard.SPACE && this.isOnAPlatform) {
-                this.jump();
-                this.isOnAPlatform = false;
-                this.walking_sound.pause();
-                this.stopIncreasingSpeed();
-            }
-
-
+            if (this.canMoveRight()) this.moveRight();
+            else if (this.canMoveLeft()) this.moveLeft();
+            if (this.canJump()) this.jump();
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
     }
 
+    canMoveRight() {
+        return this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x && !this.hurts;
+    }
+
+    canMoveLeft() {
+        return this.world.keyboard.LEFT && this.x > 0 && !this.hurts;
+    }
+
+    canJump() {
+        return this.world.keyboard.SPACE && (!this.isAboveGround() || this.isOnAPlatform);
+    }
+
+    moveRight() {
+        super.moveRight();
+        if (this.otherDirection) this.stopIncreasingSpeed();
+        this.otherDirection = false;
+        if (!this.isAboveGround()) {
+            playAudio(this.walking_sound, 1);
+            this.walking_sound.playbackRate = this.speedSound;
+        }
+        this.increasingSpeed();
+    }
+
+    moveLeft() {
+        super.moveLeft();
+        if (!this.otherDirection) this.stopIncreasingSpeed();
+        this.otherDirection = true;
+        if (!this.isAboveGround()) {
+            playAudio(this.walking_sound, 1);
+            this.walking_sound.playbackRate = this.speedSound;
+        }
+        this.increasingSpeed();
+    }
+
+    jump() {
+        super.jump();
+        this.walking_sound.pause();
+        this.stopIncreasingSpeed();
+    }
+
     animateCondition() {
         this.characterConditionInterval = setInterval(() => {
-            if (this.isDead()) {
-                this.walking_sound.pause();
-                stopAllInterval();
-                this.characterDieAnimation();
-            }
-            else if (this.isHurt(0.7)) {
-                this.playAnimation(this.IMAGES_HURT);
-            }
-            else if (this.isAboveGround() && !this.isOnAPlatform && this.speedY >= 0) {
-                this.longIdle = 0;
-                this.characterJumpAnimation();
-                clearInterval(this.characterConditionInterval);
-            }
-            else if ((this.world.keyboard.RIGHT || this.world.keyboard.LEFT && this.x > 0) && this.x < this.world.level.level_end_x) {
+            if (this.isDead()) this.characterDieAnimation();
+            else if (this.isHurt(0.7)) this.playAnimation(this.IMAGES_HURT);
+            else if (this.jumpAnimationRequirements()) this.characterJumpAnimation();
+            else if (this.walkAnimationRequirements()) {
                 this.counter++;
                 if (this.counter >= 4) {
                     this.playAnimation(this.IMAGES_WALKING);
@@ -167,6 +166,14 @@ class Character extends MovableObject {
                 this.amountCounter = 0;
             }
         }, 50);
+    }
+
+    jumpAnimationRequirements() {
+        return this.isAboveGround() && !this.isOnAPlatform && this.speedY >= 0 && !this.jumpedOnAEnemy;
+    }
+
+    walkAnimationRequirements() {
+        return (this.world.keyboard.RIGHT || this.world.keyboard.LEFT && this.x > 0) && this.x < this.world.level.level_end_x;
     }
 
     animateWalkingSpeed() {
@@ -182,7 +189,6 @@ class Character extends MovableObject {
             else this.longIdle = 0;
         }, 300);
     }
-
 
     checkCollidingWithTheGround() {
         setInterval(() => {
@@ -228,9 +234,11 @@ class Character extends MovableObject {
     }
 
     characterJumpAnimation() {
+        clearInterval(this.characterConditionInterval);
+        this.longIdle = 0;
         this.characterJumpInterval = setInterval(() => {
             this.playAnimation(this.IMAGES_JUMPING);
-        }, 160);
+        }, 155);
         setTimeout(() => {
             this.currentImage = 0;
             this.animateCondition();
@@ -239,6 +247,8 @@ class Character extends MovableObject {
     }
 
     characterDieAnimation() {
+        this.walking_sound.pause();
+        stopAllInterval();
         this.characterDieInterval = setInterval(() => {
             this.playAnimation(this.IMAGES_DEAD);
         }, 380);

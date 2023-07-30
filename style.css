@@ -2,7 +2,6 @@ body {
     font-family: 'mexican', Arial, Helvetica, sans-serif;
     margin: 0px;
     overflow: hidden;
-    /* Achtung nach Gestaltung wieder auf hidden!!! */
     height: 100vh;
     width: 100%;
     display: flex;
@@ -17,34 +16,22 @@ body {
     display: none;
 }
 
-
 canvas {
     background-color: black;
     display: block;
     border: 6px solid #D5913C;
     border-radius: 6px;
-}
-
-/* Smartphones--------------- */
-@media only screen and (max-width : 720px) {
-    canvas {
-        width: calc(100% - 12px);
-    }
-}
-
-/* Smartphones--------------- */
-@media only screen and (max-height : 480px) {
-    canvas {
-        height: calc(100vh - 12px);
-    }
+    z-index: -2;
 }
 
 .menu {
     height: 100%;
     width: 100%;
-    background-image: url('img/9_intro_outro_screens/start/startscreen_1.png');
-    background-size: cover;
-    background-position: center;
+}
+
+.menu img {
+    height: 100%;
+    width: 100%;
 }
 
 .btn {
@@ -85,10 +72,6 @@ canvas {
     justify-content: center;
 }
 
-.soundbutton img {
-    height: 48px;
-}
-
 .setting-Container {
     width: 180px;
     position: absolute;
@@ -99,6 +82,10 @@ canvas {
     right: 50px;
 }
 
+.setting-Container img {
+    height: 48px;
+    width: 48px;
+}
 
 .end-screen {
     height: 100vh;
@@ -109,9 +96,10 @@ canvas {
     align-items: center;
 }
 
-
 .gameover-image {
     animation: end-image 1.5s;
+    height: 100%;
+    width: 100%;
 }
 
 .keyboard-info {
@@ -133,7 +121,6 @@ canvas {
     width: 36px;
     opacity: 0.8;
     margin-right: 25px;
-
 }
 
 .instruction-cell {
@@ -143,10 +130,55 @@ canvas {
     align-items: center;
     padding-left: 25px;
     font-size: 10px;
+}
+
+.rotate-phone {
+    height: 100%;
+    position: fixed;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgba(157, 157, 157, 0.763);
+    z-index: 999;
+    text-align: center;
+}
+
+.rotate-phone img {
+    width: 220px;
+    opacity: 0.5;
+}
+
+.playbutton-section {
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    z-index: -1;
+}
+
+.playbutton-section img {
+    opacity: 0.6;
+    height: 32px;
+    padding: 5px;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+.playbutton-section img:hover {
+    opacity: 1;
 
 }
 
+.playbutton-container-left {
+    margin-left: 30px;
+}
 
+.playbutton-container-right {
+    margin-right: 30px;
+}
 
 @keyframes end-image {
     0% {
@@ -159,5 +191,152 @@ canvas {
 
     100% {
         transform: scale(1);
+    }
+}
+
+@media (max-width:1280px) {
+
+    .playbutton {
+        top: 70px;
+        left: calc(50% - 78px);
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+
+    .btn {
+        font-size: 20px;
+        border-radius: 20px;
+    }
+
+    .setting-Container {
+        width: 150px;
+
+    }
+
+    .setting-Container img {
+        height: 38px;
+        width: 38px;
+    }
+}
+
+@media (max-width:1024px) {
+    .playbutton {
+        top: 15px;
+        left: calc(50% - 57px);
+        padding: 12px;
+    }
+
+    .btn {
+        font-size: 12px;
+        border-radius: 16px;
+        border: solid 3px;
+    }
+
+    .setting-Container {
+        width: 100px;
+        right: 25px;
+
+    }
+
+    .setting-Container img {
+        height: 18px;
+        width: 18px;
+    }
+
+    .go-back-menu {
+        position: absolute;
+        bottom: 25px;
+        left: calc(50% - 233px/2);
+        padding: 10px;
+    }
+}
+
+@media (max-width:460px) {
+    .playbutton {
+        top: unset;
+        bottom: 50px;
+        left: calc(50% - 57px);
+        padding: 10px;
+    }
+
+    .btn {
+        font-size: 16px;
+        border-radius: 16px;
+        border: solid 3px;
+    }
+
+    .setting-Container {
+        width: 125px;
+        right: 30px;
+    }
+
+    .setting-Container img {
+        height: 28px;
+        width: 28px;
+    }
+
+}
+
+@media (max-height:480px) {
+
+    .keyboard-info {
+        position: absolute;
+        top: -440px;
+        right: 0;
+        height: 220px;
+        width: 200px;
+        padding-top: 110px;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.418);
+        z-index: 5;
+        transition: all 1s ease-in-out;
+        border-radius: 30px 0px 0px 30px;
+    }
+
+    .keyboard-info img {
+        filter: invert(100%);
+        width: 28px;
+        opacity: 0.8;
+        margin-right: 25px;
+    }
+
+    .instruction-cell {
+        margin-bottom: 15px;
+        opacity: 0.8;
+        display: flex;
+        align-items: center;
+        padding-left: 10px;
+        font-size: 6px;
+    }
+
+}
+
+/* canvas responsive */
+
+@media (max-width: 720px) {
+    canvas {
+        width: 100%;
+    }
+}
+
+@media (max-height: 480px) {
+    canvas {
+        height: 100vh;
+    }
+}
+
+/* Rotatate Smartphone */
+
+@media (max-width: 480px) {
+    .rotate-phone {
+        display: flex;
+    }
+}
+
+/* Playbuttons using */
+
+@media screen and (max-width: 1024px) and (max-height: 1400px) {
+    .playbutton-section {
+        display: flex;
     }
 }

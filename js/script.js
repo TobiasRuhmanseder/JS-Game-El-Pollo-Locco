@@ -13,7 +13,6 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-
 function playHoverSound() {
     playAudio(btnSound, 0.2);
 }
