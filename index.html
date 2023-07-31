@@ -37,7 +37,6 @@
 
 <body onload="init()">
     <canvas class="d-none" id="canvas" width="720" height="480">
-
     </canvas>
 
     <div id="menuId" class="menu">
@@ -45,33 +44,34 @@
         <div onclick="playGame()" id="playButtonId" class="playbutton btn">
             PLAY
         </div>
-        <div class="setting-Container">
-            <div onclick="toggleVolume()" id="soundButtonId" class="soundbutton btn">
-                <img id="volumeId" src="img/volume_on.svg" alt="">
-            </div>
-            <div onclick="openKeyboardInstruction()" class="keybutton btn">
-                <img id="keybuttonId" src="img/keyboard-48.png" alt="">
-            </div>
+    </div>
+    <div class="setting-Container">
+        <div onclick="toggleVolume()" id="soundButtonId" class="soundbutton btn">
+            <img id="volumeId" src="img/volume_on.svg" alt="">
         </div>
-        <div onclick="closeKeyboardInstruction()" id="keyboard-infoId" class="keyboard-info ">
-            <div class="instruction-cell">
-                <img src="img/arrow_left.png" alt="">
-                <span>run to the left </span>
-            </div>
-            <div class="instruction-cell">
-                <img src="img/arrow_right.png" alt="">
-                <span>run to the right </span>
-            </div>
-            <div class="instruction-cell">
-                <img src="img/key_space.png" alt="">
-                <span>jump </span>
-            </div>
-            <div class="instruction-cell">
-                <img src="img/key_d.png" alt="">
-                <span>throw bottles </span>
-            </div>
+        <div onclick="openKeyboardInstruction()" class="keybutton btn">
+            <img id="keybuttonId" src="img/keyboard-48.png" alt="">
         </div>
     </div>
+    <div onclick="closeKeyboardInstruction()" id="keyboard-infoId" class="keyboard-info ">
+        <div class="instruction-cell">
+            <img src="img/arrow_left.png" alt="">
+            <span>run to the left </span>
+        </div>
+        <div class="instruction-cell">
+            <img src="img/arrow_right.png" alt="">
+            <span>run to the right </span>
+        </div>
+        <div class="instruction-cell">
+            <img src="img/key_space.png" alt="">
+            <span>jump </span>
+        </div>
+        <div class="instruction-cell">
+            <img src="img/key_d.png" alt="">
+            <span>throw bottles </span>
+        </div>
+    </div>
+
 
     <div class="rotate-phone" id="rotatephone">
         <img src="img/turning-phone_68737.png" alt="">

@@ -41,6 +41,9 @@ class ThrowableObject extends MovableObject {
         this.animate();
     }
 
+    /**
+     * this function is used to animate the throwable objects
+     */
     animate() {
         this.animateBottleInterval = setInterval(() => {
             if (this.break) this.playAnimation(this.IMAGES_BOTTLE_BREAK);
@@ -48,6 +51,9 @@ class ThrowableObject extends MovableObject {
         }, this.intervalCounter);
     }
 
+    /**
+     * this function is used to animate the throw
+     */
     throw() {
         playAudio(this.throwing_sound, 1);
         this.speedY = 18;

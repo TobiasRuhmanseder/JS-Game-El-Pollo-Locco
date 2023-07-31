@@ -24,8 +24,8 @@ canvas {
 }
 
 .menu {
-    height: 100%;
-    width: 100%;
+    height: 420px;
+    width: 720px;
 }
 
 .menu img {
@@ -315,12 +315,23 @@ canvas {
     canvas {
         width: 100%;
     }
+
+    .menu {
+        width: 100%;
+    }
 }
 
 @media (max-height: 480px) {
     canvas {
-        height: 100vh;
         width: 100%;
+        height: 100vh;
+        border: none;
+    }
+
+    .menu {
+        height: 100%;
+        width: 100%;
+
     }
 }
 

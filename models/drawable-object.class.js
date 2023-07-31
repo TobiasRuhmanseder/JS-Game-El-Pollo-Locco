@@ -5,16 +5,30 @@ class DrawableObject {
     height = 150;
     width = 100;
 
-
+    /**
+     * this function is used to load the image
+     * 
+     * @param {string} path - path from the image
+     */
     loadImage(path) {
         this.img = new Image();
         this.img.src = path;
     }
 
+    /**
+     * this function is used to draw the image into the canvas
+     * 
+     * @param {ctx} ctx 
+     */
     draw(ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
     }
 
+    /**
+     * this function is used to load images from a array
+     * 
+     * @param {Array} arr 
+     */
     loadImages(arr) {
         arr.forEach((path) => {
             let img = new Image();

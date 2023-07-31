@@ -34,6 +34,9 @@ class ChickenSmall extends MovableObject {
         this.applyGravity();
     }
 
+    /**
+     * this function is used to animate the chicken animation
+     */
     animate() {
         this.animateChickenInterval = setInterval(() => {
             this.moveLeft();

@@ -33,6 +33,9 @@ class Chicken extends MovableObject {
         this.animate();
     }
 
+    /**
+     * this function is used to animate the chicken animation
+     */
     animate() {
         this.animateChickenInterval = setInterval(() => {
             this.moveLeft();

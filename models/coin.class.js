@@ -20,12 +20,18 @@ class Coin extends Collectables {
         this.animate();
     }
 
+    /**
+     * this function is used to animate the coin animation
+     */
     animate() {
         setInterval(() => {
             this.playAnimation(this.IMAGES_COIN);
         }, 650);
     }
 
+    /**
+     * this function is used to when a coin would be collected
+     */
     collected() {
         let index = world.level.collectables.indexOf(this);
         playAudio(this.collecting_Sound, 1);

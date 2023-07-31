@@ -24,12 +24,18 @@ class Bottle extends Collectables {
         this.height = 100;
     }
 
+    /**
+     * this function is used to animate the bottle on the canvas
+     */
     animate() {
         setInterval(() => {
             this.playAnimation(this.IMAGES_COIN);
         }, 650);
     }
 
+    /**
+     * this function when a bottle is picked up
+     */
     collected() {
         let index = world.level.collectables.indexOf(this);
         playAudio(this.collecting_Sound, 1);

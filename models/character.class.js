@@ -96,9 +96,11 @@ class Character extends MovableObject {
         this.animateCondition();
         this.animateWalkingSpeed();
         this.applyGravity();
-        this.checkCollidingWithTheGround();
     }
 
+    /**
+     * this function is used to animates the movement of the character
+     */
     animateMove() {
         setInterval(() => {
             if (this.canMoveRight()) this.moveRight();
@@ -108,18 +110,36 @@ class Character extends MovableObject {
         }, 1000 / 60);
     }
 
+    /**
+     * this function is used to check if he can right
+     * 
+     * @returns true or false
+     */
     canMoveRight() {
         return this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x && !this.hurts;
     }
 
+    /**
+     * this function is used to check if he can walk left
+     * 
+     * @returns true or false
+     */
     canMoveLeft() {
         return this.world.keyboard.LEFT && this.x > 0 && !this.hurts;
     }
 
+    /**
+     * this function is used to check if he can jump
+     * 
+     *      * @returns true or false
+     */
     canJump() {
         return this.world.keyboard.SPACE && (!this.isAboveGround() || this.isOnAPlatform);
     }
 
+    /**
+     * this function is used to move the character to the right
+     */
     moveRight() {
         super.moveRight();
         if (this.otherDirection) this.stopIncreasingSpeed();
@@ -131,6 +151,9 @@ class Character extends MovableObject {
         this.increasingSpeed();
     }
 
+    /**
+     * this function is used to move the character to the left
+     */
     moveLeft() {
         super.moveLeft();
         if (!this.otherDirection) this.stopIncreasingSpeed();
@@ -142,12 +165,18 @@ class Character extends MovableObject {
         this.increasingSpeed();
     }
 
+    /**
+     * this function is used to jump with the character
+     */
     jump() {
         super.jump();
         this.walking_sound.pause();
         this.stopIncreasingSpeed();
     }
 
+    /**
+     * this function is used to right animate in the right situation
+     */
     animateCondition() {
         this.characterConditionInterval = setInterval(() => {
             if (this.isDead()) this.characterDieAnimation();
@@ -168,16 +197,28 @@ class Character extends MovableObject {
         }, 50);
     }
 
+    /**
+     * this function is used to check the requirements to jump
+     * 
+     * @returns true or false
+     */
     jumpAnimationRequirements() {
         return this.isAboveGround() && !this.isOnAPlatform && this.speedY >= 0 && !this.jumpedOnAEnemy;
     }
 
+    /**
+   * this function is used to check the requirements to walk
+   * 
+   * @returns true or false
+   */
     walkAnimationRequirements() {
         return (this.world.keyboard.RIGHT || this.world.keyboard.LEFT && this.x > 0) && this.x < this.world.level.level_end_x;
     }
 
+    /**
+     * this function is used to animate the increasing walking speed
+     */
     animateWalkingSpeed() {
-
         setInterval(() => {
             if ((!this.world.keyboard.LEFT && !this.world.keyboard.RIGHT) || this.x <= 0 || this.x > this.world.level.level_end_x) {
                 this.walking_sound.pause(); /* stops the music if not pressed left or right */
@@ -190,16 +231,9 @@ class Character extends MovableObject {
         }, 300);
     }
 
-    checkCollidingWithTheGround() {
-        setInterval(() => {
-            if (this.y >= this.world.groundY) {
-                this.isOnAPlatform = false;
-                this.isJumping = false;
-            }
-        }, 500);
-
-    }
-
+    /**
+     * this function is used to calculate the increasing speed
+     */
     increasingSpeed() {
         if (this.speed < 8) {
             this.speed *= 1.01;
@@ -207,6 +241,9 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * this function is used to stop the calculated incrasing speed and set i to 0
+     */
     stopIncreasingSpeed() {
         this.speed = 2.5;
         this.speedSound = 1;
@@ -214,6 +251,9 @@ class Character extends MovableObject {
         this.amountCounter = 0;
     }
 
+    /**
+     * this function is used to perform a backward jump when colliding with an enemy
+     */
     backwardJump() {
         if (!this.hurts) {
             this.hurts = true;
@@ -233,12 +273,15 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * this function is used to animate the jump animation
+     */
     characterJumpAnimation() {
         clearInterval(this.characterConditionInterval);
         this.longIdle = 0;
         this.characterJumpInterval = setInterval(() => {
             this.playAnimation(this.IMAGES_JUMPING);
-        }, 155);
+        }, 220);
         setTimeout(() => {
             this.currentImage = 0;
             this.animateCondition();
@@ -246,6 +289,9 @@ class Character extends MovableObject {
         }, 800);
     }
 
+    /**
+     * this function is used to animate the die animation
+     */
     characterDieAnimation() {
         this.walking_sound.pause();
         stopAllInterval();

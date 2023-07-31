@@ -9,6 +9,7 @@ class Endboss extends MovableObject {
     height = 450;
     y = 500 - 15 - this.height;
     width = 300;
+    meetCounter = -1;
     isDead = false;
     offset = {
         top: 120,
@@ -67,24 +68,19 @@ class Endboss extends MovableObject {
         this.animate();
     }
 
+    /**
+     * this function is used to animate the endboss animation
+     */
     animate() {
-        let i = -1;
         this.animateEndbossInterval = setInterval(() => {
-            if (i < 16 && i >= 0) {
-                this.playAnimation(this.IMAGES_ALERT);
-                i++;
-                if (i == 14) world.throwing = true;
-            }
+            if (this.meetCounter < 16 && this.meetCounter >= 0) this.endbossAlert();
             else {
                 if (this.hadFirstContact && !this.isHurt(1.5)) {
-                    this.playAnimation(this.IMAGES_WALKING);
-                    this.moveLeft();
+                    this.endbossWalking();
                 } else if (this.hadFirstContact) this.playAnimation(this.IMAGES_HURT);
             }
             if (world.character.x >= this.x - 450 && !this.hadFirstContact) {
-                i = 0;
-                playAudio(this.endboss_sound, 0.15);
-                this.hadFirstContact = true;
+                this.firstContactWithEndboss();
             }
             if (world.character.x >= this.x - 900 && !this.hadFirstContact) {
                 world.throwing = false;
@@ -99,10 +95,38 @@ class Endboss extends MovableObject {
                 clearInterval(this.energyInterval);
                 playAudio(this.die_sound, 0.5, 1);
             }
-
         }, 200);
     }
 
+    /**
+     * this function is used to play the endboss alert animation when the character meets the endboss
+     */
+    endbossAlert() {
+        this.playAnimation(this.IMAGES_ALERT);
+        this.meetCounter++;
+        if (this.meetCounter == 14) world.throwing = true;
+    }
+
+    /**
+     * this function is used to animate the endboss walking
+     */
+    endbossWalking() {
+        this.playAnimation(this.IMAGES_WALKING);
+        this.moveLeft();
+    }
+
+    /**
+     * this function is used to set someting when the character meets the endboss
+     */
+    firstContactWithEndboss() {
+        this.meetCounter = 0;
+        playAudio(this.endboss_sound, 0.15);
+        this.hadFirstContact = true;
+    }
+
+    /**
+     * this function is used to animate the die animation
+     */
     endbossDieAnimation() {
         this.endbossDieInterval = setInterval(() => {
             this.playAnimation(this.IMAGES_DEAD);
